@@ -169,8 +169,16 @@ if __name__ == '__main__':
 
     # Create a DataFrame and save to file
     df = pd.DataFrame(data, columns=['pdb_id',
-                                     's_ch', 's_resi', 's_ins', 's_resn', 's_ss8', 's_rsa', 's_up', 's_down', 's_phi', 's_psi', 's_ss3', 's_a1', 's_a2', 's_a3', 's_a4', 's_a5',
-                                     't_ch', 't_resi', 't_ins', 't_resn', 't_ss8', 't_rsa', 't_up', 't_down', 't_phi', 't_psi', 't_ss3', 't_a1', 't_a2', 't_a3', 't_a4', 't_a5']).round(3)
+                                    's_ch', 's_resi', 's_ins', 's_resn', 's_ss8', 's_rsa',
+                                     's_up', 's_down', #TODO delete - features not available in the training data
+                                    's_phi', 's_psi',
+                                    's_ss3', # TODO 
+                                    's_a1', 's_a2', 's_a3', 's_a4', 's_a5',
+                                    't_ch', 't_resi', 't_ins', 't_resn', 't_ss8', 't_rsa',
+                                    't_up', 't_down', # TODO
+                                    't_phi', 't_psi',
+                                    't_ss3', # TODO
+                                    't_a1', 't_a2', 't_a3', 't_a4', 't_a5']).round(3)
 
 
     df.to_csv("{}/{}.tsv".format(args.out_dir, pdb_id), sep="\t", index=False)
