@@ -1,0 +1,9 @@
+name: SBenv
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - biopython
+  - pandas
+  - dssp
+  - ipykernel

@@ -1,8 +1,7 @@
-
-
 from Bio.PDB import DSSP, HSExposureCB, PPBuilder, is_aa, NeighborSearch
 from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.SeqUtils import seq1
+import shutil
 
 import pandas as pd
 from pathlib import Path, PurePath
@@ -39,13 +38,15 @@ if __name__ == '__main__':
     # Load the config file
     # If not provided, set the path to "configuration.json", which is in the same folder of this Python file
     src_dir = str(PurePath(os.path.realpath(__file__)).parent)
-    config_file = src_dir + "/configuration.json" if args.conf_file is None else args.configuration
+    config_file = src_dir + "/configuration.json" if args.conf_file is None else args.conf_file
     with open(config_file) as f:
         config = json.load(f)
 
     # Fix configuration paths (identified by the '_file' or '_dir' suffix in the field name)
     # If paths are relative it expects they refer to the absolute position of this file
     for k in config:
+        if k == "dssp_file":
+            continue
         if ('_file' in k or '_dir' in k) and k[0] != '/':
             config[k] = src_dir + '/' + config[k]
 
@@ -77,6 +78,27 @@ if __name__ == '__main__':
         logging.warning("{} no valid residues error  (skipping prediction)".format(pdb_id))
         raise ValueError("no valid residues")
 
+
+    # Calculate DSSP
+    dssp = {}
+    try:
+        dssp_exe = config.get("dssp_file", "mkdssp")
+
+        # If config says "mkdssp", use the executable from the active conda env / PATH
+        if dssp_exe == "mkdssp":
+            dssp_exe = shutil.which("mkdssp")
+            if dssp_exe is None:
+                raise FileNotFoundError(
+                    "mkdssp not found. Activate your conda environment or install DSSP with: "
+                    "conda install -c conda-forge dssp"
+                )
+
+        dssp = dict(DSSP(structure[0], args.pdb_file, dssp=dssp_exe))
+
+    except Exception:
+        logging.warning("{} DSSP error".format(pdb_id))
+        raise
+    """
     # Calculate DSSP
     dssp = {}
     try:
@@ -84,7 +106,7 @@ if __name__ == '__main__':
     except Exception:
         logging.warning("{} DSSP error".format(pdb_id))
         raise
-
+    """
     # Calculate Half Sphere Exposure
     hse = {}
     try:
