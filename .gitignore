@@ -1,6 +1,7 @@
 *.tsv
 *.cif
 *.ent
+*.pkl
 *.parquet
 /report_figures/
 /study_materials/
