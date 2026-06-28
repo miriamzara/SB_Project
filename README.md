@@ -19,6 +19,13 @@ Then verify where it was installed so you can put it in your configuration.json 
 ```{bash}
 !which mkdssp
 ```
+## Software Predictor Usage
+
+To run predictions on a novel protein structural database entry using our optimal model architecture, run the following command in your terminal:
+
+```bash
+python3 predict_contacts.py path/to/target_protein.cif --model xgboost --output my_predictions.tsv
+```
 The link to Overleaf is:
 
 [https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22](https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22)
