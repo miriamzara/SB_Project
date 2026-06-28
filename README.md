@@ -34,7 +34,3 @@ input_structure: Path to a valid .pdb or .cif coordinate schema.
 --model: Select classification engine backend (logistic, random_forest, xgboost).
 
 --config: Path to paths and configuration tracking maps (defaults to classification_ring/configuration.json).
-
-The link to Overleaf is:
-
-[https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22](https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22)
