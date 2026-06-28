@@ -22,10 +22,10 @@ Then verify where it was installed so you can put it in your configuration.json 
 ```
 ## Software Predictor Usage
 
-To run predictions on a novel protein structural database entry using our optimal model architecture, run the following command in your terminal:
+To run predictions on a protein structure file, run the following command from the project directory:
 
 ```bash
-python3 predict_contacts.py path/to/target_protein.cif --model xgboost --output my_predictions.tsv
+python3 predict_contacts.py path/to/protein.cif --model logistic --output predictions.tsv
 ```
 
 Options:
