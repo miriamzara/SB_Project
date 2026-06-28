@@ -16,7 +16,7 @@ import foldseek_extract_pdb_features
 LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWYZabcdefghijklmnopqrstuvwyz'
 
 # WARNING change accordingly depending on the execution path
-model_dir = '3di_model'
+model_dir = 'classification_ring/3di_model'
 
 
 def encoder_features(residues, virt_cb=(270, 0, 2), full_backbone=True):
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     logging.info("{} processing".format(pdb_id))
 
     # Load model parameters
-    encoder = torch.load('{}/encoder.pt'.format(model_dir))
+    encoder = torch.load('{}/encoder.pt'.format(model_dir), weights_only=False)
     centroids = np.loadtxt('{}/states.txt'.format(model_dir))
     encoder.eval()
 
