@@ -27,6 +27,14 @@ To run predictions on a novel protein structural database entry using our optima
 ```bash
 python3 predict_contacts.py path/to/target_protein.cif --model xgboost --output my_predictions.tsv
 ```
+
+Options:
+input_structure: Path to a valid .pdb or .cif coordinate schema.
+
+--model: Select classification engine backend (logistic, random_forest, xgboost).
+
+--config: Path to paths and configuration tracking maps (defaults to classification_ring/configuration.json).
+
 The link to Overleaf is:
 
 [https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22](https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22)
