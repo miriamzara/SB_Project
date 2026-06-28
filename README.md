@@ -4,6 +4,7 @@ To start, create a new conda environment:
 conda env create -f environment.yml
 conda activate SBenv
 ```
+Start with unzipping classification_ring.zip file and making a folder named data in that folder. Unzip features_ring.zip into data.
 
 The link to Overleaf is:
 
