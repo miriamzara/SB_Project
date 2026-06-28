@@ -1,6 +1,7 @@
 name: SBenv
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - python=3.11
   - biopython
@@ -11,4 +12,5 @@ dependencies:
   - matplotlib
   - seaborn
   - pyarrow
+  - jinja2
   - xgboost
