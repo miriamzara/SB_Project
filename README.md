@@ -16,8 +16,9 @@ Run 2_train_val_test_split.ipynb
 Run files 3, 4B and 7 to train models.
 
 Then verify where it was installed so you can put it in your configuration.json as dssp_file:
+```{bash}
 !which mkdssp
-
+```
 The link to Overleaf is:
 
 [https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22](https://www.overleaf.com/9168223453xrjkzknvgnsw#308b22)
