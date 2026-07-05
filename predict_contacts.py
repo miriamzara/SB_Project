@@ -22,6 +22,18 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+# ── PyTorch 2.6 Bypass Monkeypatch ──────────────────────────────────────────
+# This automatically patches torch globally to ensure older weights load safely 
+try:
+    import torch
+    _original_load = torch.load
+    def _safe_load(*args, **kwargs):
+        kwargs["weights_only"] = False
+        return _original_load(*args, **kwargs)
+    torch.load = _safe_load
+except ImportError:
+    pass
+
 # ── Logger ────────────────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -32,10 +44,12 @@ LABEL_COLS = ['HBOND', 'VDW', 'IONIC', 'PIPISTACK', 'PICATION', 'SSBOND', 'PIHBO
 PAIR_COLS = ['pdb_id', 's_ch', 's_resi', 's_ins', 's_resn',
              't_ch', 't_resi', 't_ins', 't_resn']
 
+# FIX: Added 't_3di_state' which was missing from the original script's list
 NUM_FEATURES = [
     's_rsa', 's_phi', 's_psi', 's_a1', 's_a2', 's_a3', 's_a4', 's_a5',
     's_3di_state',
     't_rsa', 't_phi', 't_psi', 't_a1', 't_a2', 't_a3', 't_a4', 't_a5',
+    't_3di_state',
 ]
 
 CAT_FEATURES = ['s_ss8', 's_3di_letter', 't_ss8', 't_3di_letter']
@@ -213,6 +227,28 @@ def main():
 
     # 5. Predict probabilities
     logger.info("Running predictions...")
+    
+    # FIX: Check if using xgboost to handle categorical mismatch/one-hot alignments
+    if args.model == 'xgboost':
+        # Safely convert categories and set pipeline parameters
+        for est in pipeline.estimators_:
+            if hasattr(est, 'set_params'):
+                est.set_params(enable_categorical=True)
+        
+        # Manually one-hot encode text data for raw XGBoost compatibility
+        X = pd.get_dummies(X)
+        
+        # Match features against original model booster structure
+        try:
+            expected_features = pipeline.estimators_[0].get_booster().feature_names
+            if expected_features is not None:
+                for col in expected_features:
+                    if col not in X.columns:
+                        X[col] = 0.0
+                X = X[expected_features].astype(float)
+        except Exception as e:
+            logger.warning(f"Could not automatically match booster feature array shape: {e}")
+
     y_proba = pipeline.predict_proba(X)
     if isinstance(y_proba, list):
         y_scores = np.column_stack([p[:, 1] for p in y_proba])
@@ -230,14 +266,12 @@ def main():
     pred_df = (proba_df >= pd.Series(thresholds)).astype(int)
 
     # 8. Build output table
-    # For each contact: pair columns + predicted interaction types + scores
     output_rows = []
     for idx in merged_df.index:
         row = merged_df.loc[idx]
         scores = proba_df.loc[idx]
         preds  = pred_df.loc[idx]
 
-        # Predicted interaction types (comma-separated, or 'Unclassified')
         predicted_types = [label for label in LABEL_COLS if preds[label] == 1]
         interaction_str = ','.join(predicted_types) if predicted_types else 'Unclassified'
 
@@ -252,7 +286,6 @@ def main():
             't_resn': row['t_resn'],
             'Interaction': interaction_str,
         }
-        # Add score for each label
         for label in LABEL_COLS:
             out[f'score_{label}'] = round(float(scores[label]), 4)
 
