@@ -23,10 +23,11 @@ Then verify where it was installed so you can put it in your configuration.json 
 ## Software Predictor Usage
 
 To run predictions on a protein structure file, run the following command from the project directory:
-model name is: logistic/xgboost/random_forest
+
 ```bash
 python3 predict_contacts.py path/to/protein.cif --model model_name --output predictions.tsv
 ```
+model name is: logistic/xgboost/random_forest
 
 Options:
 input_structure: Path to a valid .pdb or .cif coordinate schema.
