@@ -1,5 +1,7 @@
 *.tsv
 *.cif
+!test_data/2f4k.cif
+!atchley.tsv
 *.ent
 *.pkl
 *.parquet
