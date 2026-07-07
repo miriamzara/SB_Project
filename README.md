@@ -29,6 +29,10 @@ python3 predict_contacts.py path/to/protein.cif --model model_name --output pred
 ```
 model name is: logistic/xgboost/random_forest
 
+Ps: random_forest model is too heavy forgit to be uploaded. You can downlad the pre-trained model here:
+
+https://drive.google.com/drive/folders/1NV1EvYlC4WVzZSrIkM5nfA1W9cMiBv50?usp=sharing
+
 Options:
 input_structure: Path to a valid .pdb or .cif coordinate schema.
 
