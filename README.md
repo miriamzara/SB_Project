@@ -134,7 +134,13 @@ The training pipeline is reproducible using the provided Jupyter notebooks.
 
 ## Preparing the Feature Extraction Files
 
-Unzip classification_ring.zip. Inside the extracted classification_ring/ directory, create a folder named data:
+You can download our training data at the Google Drive link:
+
+https://drive.google.com/file/d/119BxPujC3rvJxLhnFHE-bwt9SyXPNAZv/view
+
+provided you have rights to access it.
+
+Inside the extracted classification_ring/ directory, if not already present create a folder named data:
 
 ```{bash}
 mkdir -p classification_ring/data
