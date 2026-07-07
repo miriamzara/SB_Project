@@ -4,13 +4,15 @@ channels:
   - defaults
 dependencies:
   - python=3.11
+  - pytorch=2.2.2
+  - numpy=1.26.4
+  - scikit-learn=1.6.1
+  - xgboost
   - biopython
   - pandas
   - dssp
   - ipykernel
-  - scikit-learn
   - matplotlib
   - seaborn
   - pyarrow
   - jinja2
-  - xgboost
