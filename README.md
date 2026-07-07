@@ -27,22 +27,6 @@ torch 2.2.2
 
 These versions are important because the pretrained scikit-learn pipelines are loaded from .pkl files and may not be compatible with newer scikit-learn versions.
 
-## Preparing the Feature Extraction Files
-
-Unzip classification_ring.zip. Inside the extracted classification_ring/ directory, create a folder named data:
-
-```{bash}
-mkdir -p classification_ring/data
-```
-
-Then unzip features_ring.zip into that folder, so the final structure is:
-
-```{bash}
-classification_ring/
-└── data/
-    └── features_ring/
-```
-
 ## DSSP Installation
 
 The feature extraction pipeline requires DSSP.
@@ -161,6 +145,23 @@ classification_ring/configuration.json
 # Training
 
 The training pipeline is reproducible using the provided Jupyter notebooks.
+
+## Preparing the Feature Extraction Files
+
+Unzip classification_ring.zip. Inside the extracted classification_ring/ directory, create a folder named data:
+
+```{bash}
+mkdir -p classification_ring/data
+```
+
+Then unzip features_ring.zip into that folder, so the final structure is:
+
+```{bash}
+classification_ring/
+└── data/
+    └── features_ring/
+```
+
 
 ### Step 1: Preprocessing
 
