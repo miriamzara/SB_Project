@@ -38,20 +38,6 @@ sudo apt-get update
 sudo apt-get install -y dssp
 ```
 
-Then check the path to the DSSP executable:
-
-```
-which mkdssp
-```
-
-Add this path to classification_ring/configuration.json under the dssp_file field.
-
-Example:
-
-{
-  "dssp_file": "/usr/bin/mkdssp"
-}
-
 On macOS, DSSP can usually be installed with conda:
 
 ```{bash}
