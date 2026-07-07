@@ -3,7 +3,7 @@
 
 To avoid package version conflicts, we recommend creating a new conda environment using the provided environment.yml file:
 
-````{bash}
+```{bash}
 conda env create -f environment.yml
 conda activate SBenv
 ```
@@ -11,16 +11,19 @@ conda activate SBenv
 After activating the environment, verify the key package versions:
 
 ```{bash}
-python -c "import sklearn, numpy, torch; print('scikit-learn:', sklearn.__version__); print('numpy:', numpy.__version__); print('torch:', torch.__version__)"
-````
+python -c "import sklearn, numpy, torch;
+print('scikit-learn:', sklearn.__version__);
+print('numpy:', numpy.__version__);
+print('torch:', torch.__version__)"
+```
 
 The pretrained models were tested with:
 
-```
+```{bash}
 scikit-learn 1.6.1
 numpy 1.26.4
 torch 2.2.2
-````
+```
 
 These versions are important because the pretrained scikit-learn pipelines are loaded from .pkl files and may not be compatible with newer scikit-learn versions.
 
@@ -30,15 +33,15 @@ Unzip classification_ring.zip. Inside the extracted classification_ring/ directo
 
 ```{bash}
 mkdir -p classification_ring/data
-````
+```
 
 Then unzip features_ring.zip into that folder, so the final structure is:
 
-```
+```{bash}
 classification_ring/
 └── data/
     └── features_ring/
-````
+```
 
 ## DSSP Installation
 
@@ -67,25 +70,25 @@ Example:
 
 On macOS, DSSP can usually be installed with conda:
 
-```
+```{bash}
 conda install -c conda-forge dssp
 ````
 
 Then verify the executable path:
 
-```
+```{bash}
 which mkdssp
-````
+```
 
-## Software Predictor Usage
+# Software Predictor Usage
 
 This repository includes a command-line predictor that runs pretrained models on a protein structure file.
 
 From the project directory, run:
 
-```
+```{bash}
 python predict_contacts.py path/to/protein.cif --model model_name --output predictions.tsv
-````
+```
 
 Supported model names are:
 
@@ -95,9 +98,9 @@ Supported model names are:
 
 Example:
 
-```
+```{bash}
 python predict_contacts.py test_data/2f4k.cif --model xgboost --output predictions.tsv
-````
+```
 
 Random Forest Model
 
@@ -109,23 +112,23 @@ https://drive.google.com/drive/folders/1NV1EvYlC4WVzZSrIkM5nfA1W9cMiBv50?usp=sha
 
 After downloading, rename the .pkl file to:
 
-```
+```{bash}
 random_forest_model.pkl
-````
+```
 
 Then place it in:
 
-```
+```{bash}
 models/random_forest/
-````
+```
 
 The final path should be:
 
-```
+```{bash}
 models/random_forest/random_forest_model.pkl
-````
+```
 
-Command-Line Options
+## Command-Line Options
 
 input_structure
 
@@ -155,77 +158,57 @@ Path to the configuration file. Defaults to:
 
 classification_ring/configuration.json
 
-Training
+# Training
 
 The training pipeline is reproducible using the provided Jupyter notebooks.
 
-Step 1: Preprocessing
+### Step 1: Preprocessing
 
 Run:
 
+```{bash}
 1_preprocessing.ipynb
+```
+
 
 This creates a .parquet dataframe from the raw feature data located in:
 
+```{bash}
 data/features_ring/
+```
 
-Step 2: Train/Validation/Test Split
+### Step 2: Train/Validation/Test Split
 
 Run:
 
+```{bash}
 2_train_val_test_split.ipynb
-
+```
 This creates the train, validation, and test splits used by the training notebooks.
 
-Step 3: Model Training and Validation
+### Step 3: Model Training and Validation
 
 Run the corresponding notebooks for each model:
 
-3_logistic.ipynb
-3B_logistic_validation.ipynb
-4_random_forest.ipynb
-4B_random_forest_validation.ipynb
-7_xgboost.ipynb
-7B_xgboost_validation.ipynb
+```{bash}
+3_logistic_regression.ipynb
+3B_logistic_biorules.ipynb
+4B_random_forest_metrics_added.ipynb
+7_XGBoost.ipynb
+```
 
 These notebooks train the models and evaluate them on the validation set.
 
-Additional Analyses
+**Additional Analyses**
 
 To reproduce the feature ablation study for the random forest model, run:
 
+```{bash}
 5_feature_ablation.ipynb
+```
 
 To perform cross-validation, run:
 
+```{bash}
 8_cross_validation.ipynb
-
-Troubleshooting
-
-scikit-learn model loading error
-
-If you see an error such as:
-
-AttributeError: Can't get attribute '_RemainderColsList'
-
-or:
-
-InconsistentVersionWarning: Trying to unpickle estimator ... from version 1.6.1
-
-make sure that scikit-learn 1.6.1 is installed:
-
-conda install -c conda-forge scikit-learn=1.6.1
-
-PyTorch and NumPy compatibility error
-
-If you see:
-
-RuntimeError: Numpy is not available
-
-make sure NumPy is pinned below version 2:
-
-conda install numpy=1.26.4
-
-Then test:
-
-python -c "import numpy, torch; print(numpy.__version__); print(torch.tensor([1.0, 2.0]).numpy())"
+```
