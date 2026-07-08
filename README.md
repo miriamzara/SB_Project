@@ -91,7 +91,6 @@ Then place it in:
 ```{bash}
 models/random_forest/
 ```
-
 The final path should be:
 
 ```{bash}
@@ -205,3 +204,6 @@ To perform cross-validation, run:
 ```{bash}
 8_cross_validation.ipynb
 ```
+In case you were interested in training models, the data is provided here:
+
+https://drive.google.com/drive/folders/11926zvl-FNK7Y8mJUou1678O4v3fzXSX?usp=sharing
